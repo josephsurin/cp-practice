@@ -9,6 +9,7 @@ using namespace std;
 
 void move_original(vector<vector<int> >&, int, int);
 void move_all_original(vector<vector<int> >&, int);
+void move_stack(vector<vector<int> >&, auto, int);
 void move_onto(vector<vector<int> >&, int, int);
 void move_over(vector<vector<int> >&, int, int);
 void pile_onto(vector<vector<int> >&, int, int);
@@ -57,11 +58,16 @@ void move_over(vector<vector<int> > &bw, int a, int b) {
 
 void pile_onto(vector<vector<int> > &bw, int a, int b) {
 	move_all_original(bw, b);
-	pile_over(bw, a, b);
+	auto s = find_if(bw.begin(), bw.end(), [&](auto v) { return find(v.begin(), v.end(), a) != v.end(); });
+	move_stack(bw, s, b);
 }
 
 void pile_over(vector<vector<int> > &bw, int a, int b) {
-	auto s = find_if(bw.begin(), bw.end(), [&](auto v) { return find(v.begin(), v.end(), a) != v.end(); });
+	auto s = find_if(bw.begin(), bw.end(), [&](auto v) { return find(v.begin(), v.end(), b) != v.end(); });
+	move_stack(bw, s, b); 
+}
+
+void move_stack(vector<vector<int> > &bw, auto s, int b) {
 	while(s[0].size()) {
 		bw[b].push_back(s[0][0]);
 		s[0].erase(s[0].begin());

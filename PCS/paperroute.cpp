@@ -1,23 +1,19 @@
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
 int main() {
+    ios::sync_with_stdio(false); cin.tie(0);
     int S;
     cin >> S;
     for(int i = 0; i < S; ++i) {
         int H;
         cin >> H;
-        vector<int> P;
-        for(int j = 0; j < H; ++j) {
-            int p;
-            cin >> p;
-            P.push_back(p);
-        }
         int maxp = 0;
         int sum = 0;
-        for( auto &p : P) {
+        while(H--) {
+            int p;
+            cin >> p;
             if(p < 0) {
                 if(sum > maxp) {
                     maxp = sum;

@@ -20,16 +20,17 @@ int bs_l(vector<int> &v, int x) {
 }
 
 int main() {
+	ios::sync_with_stdio(false); cin.tie(0);
 	int N, Q;
 	cin >> N >> Q;
 	vector<int> b;
-	for(int i = 0; i < N; ++i) {
+	while(N--) {
 		int h;
 		cin >> h;
 		b.push_back(h);
 	}
 	sort(b.begin(), b.end());
-	for(int i = 0; i < Q; ++i) {
+	while(Q--) {
 		int A, B;
 		cin >> A >> B;
 		int A_L = bs_l(b, A);

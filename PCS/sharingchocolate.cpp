@@ -2,41 +2,45 @@
 #include <iostream>
 #include <cmath>
 
+#define MAX_N 1000001 
+
 using namespace std;
 
-int primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101};
+int min_pf[MAX_N] = {0, 1};
 
-bool isprime(int N) {
-	if(N == 1) return false;
-	if(N == 2) return true;
-	for(int i = 2; i * i <= N; ++i) {
-		if(N%i == 0) return false;
+void gen_min_pf() {
+	for(int i = 2; i < MAX_N; i+=2) {
+		min_pf[i] = 2;
+		min_pf[i+1] = i+1;
 	}
-	return true;
+	for(int i = 3; i * i < MAX_N; i+=2) {
+		if(min_pf[i] == i) {
+			for(int j = i * i; j < MAX_N; j += i) {
+				if(min_pf[j] == j)
+					min_pf[j] = i;
+			}
+		}
+	}
 }
 
 int numfacts(int N) {
-	int n = N;
+	int j = N;
 	int num = 1;
-	for(auto &p : primes) {
-		if(p*p*p > N) break;
-		int c = 1;
-		while(n%p == 0) {
-			n /= p;
-			++c;
+	while(j != 1) {
+		int p = 0;
+		int f = min_pf[j];
+		while(j%f == 0) {
+			j /= f;
+			++p;
 		}
-		num *= c+1;
+		num *= (1+p);
 	}
-	if(isprime(N)) return num*2;
-	float sN = sqrt(N);
-	if((int)sN == sN && isprime(sN)) return num*3;
-	if(N != 1) return num*4;
 	return num;
 }
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(0);
-
+	gen_min_pf();
 	int Q;
 	cin >> Q;
 	while(Q--) {
